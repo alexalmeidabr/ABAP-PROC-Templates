@@ -37,6 +37,10 @@ CLASS flight DEFINITION.
 
     METHODS viewflightsalv.
 
+    METHODS numberoffights
+      IMPORTING airport           TYPE s_fromairp
+      RETURNING VALUE(numflights) TYPE i.
+
   PRIVATE SECTION.
 
 *   Internal table declaration
@@ -157,6 +161,20 @@ CLASS flight IMPLEMENTATION.
 
   ENDMETHOD.
 
+  METHOD numberoffights.
+
+    DATA: wa_flight TYPE spfli.
+
+    LOOP AT it_flight INTO wa_flight.
+
+      IF wa_flight-airpfrom = airport.
+        numflights = numflights + 1.
+      ENDIF.
+
+    ENDLOOP.
+
+  ENDMETHOD.
+
 ENDCLASS.
 
 TABLES: spfli.
@@ -199,9 +217,22 @@ SELECTION-SCREEN SKIP.
 SELECTION-SCREEN BEGIN OF BLOCK viewopt WITH FRAME TITLE text-002.
 
 PARAMETERS: p_text RADIOBUTTON GROUP grp1,
-            p_alv  RADIOBUTTON GROUP grp1 DEFAULT 'X'.
+            p_alv  RADIOBUTTON GROUP grp1 DEFAULT 'X',
+            p_numf RADIOBUTTON GROUP grp1.
 
 SELECTION-SCREEN END OF BLOCK viewopt.
+
+AT SELECTION-SCREEN.
+
+  IF p_numf IS NOT INITIAL.
+
+    IF p_afrom IS INITIAL.
+
+      MESSAGE e006(zames1).
+
+    ENDIF.
+
+  ENDIF.
 
 
 ***********************************************************************
@@ -236,9 +267,13 @@ START-OF-SELECTION.
 
     obj_flight->viewflights( ).
 
-  ELSE.
+  ELSEIF p_alv = 'X'.
 
     obj_flight->viewflightsalv( ).
+
+  ELSE.
+
+    WRITE: / 'Number of flights: ', obj_flight->numberoffights( P_AFROM-LOW ).
 
   ENDIF.
 
