@@ -37,16 +37,10 @@ DATA: it_fieldcat TYPE slis_t_fieldcat_alv,
       wa_fieldcat TYPE slis_fieldcat_alv.
 
 * Internal table declaration
-TYPES BEGIN OF ty_line_empl.
-
-        INCLUDE STRUCTURE zaemployees2.
-
-TYPES END OF ty_line_empl.
-
-TYPES ty_empl TYPE STANDARD TABLE OF ty_line_empl.
+TYPES ty_empl TYPE STANDARD TABLE OF zaemployees2.
 
 DATA: it_empl TYPE ty_empl,
-      wa_empl TYPE ty_line_empl.
+      wa_empl TYPE zaemployees2.
 
 * Fields required to load CSV file
 DATA: v_rc TYPE i.

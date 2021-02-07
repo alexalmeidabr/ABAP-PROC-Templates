@@ -29,16 +29,10 @@ DATA: lv_employee LIKE zaemployees2-employee,
       lv_count    TYPE i.
 
 * Internal table declaration
-TYPES BEGIN OF ty_line_empl.
-
-  INCLUDE STRUCTURE zaemployees2.
-
-TYPES end of ty_line_empl.
-
-TYPES ty_empl TYPE STANDARD TABLE OF ty_line_empl.
+TYPES ty_empl TYPE STANDARD TABLE OF zaemployees2.
 
 DATA: it_empl TYPE ty_empl,
-      wa_empl TYPE ty_line_empl.
+      wa_empl TYPE zaemployees2.
 
 * Selection-Screen ***************
 
